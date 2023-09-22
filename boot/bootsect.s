@@ -101,6 +101,17 @@ ok_load_setup:
 	mov	ax,#0x1301		! write string, move cursor
 	int	0x10
 
+	mov	ah,#0x03		! read cursor pos
+	xor	bh,bh
+	int	0x10
+	
+	mov	cx,#31
+	mov	bx,#0x0007		! page 0, attribute 7 (normal)
+	mov	bp,#msg2
+	mov	ax,#0x1301		! write string, move cursor
+	int	0x10
+
+
 ! ok, we've written the message, now
 ! we want to load the system (at 0x10000)
 
@@ -244,6 +255,11 @@ sectors:
 msg1:
 	.byte 13,10
 	.ascii "Loading system ..."
+	.byte 13,10,13,10
+
+msg2:
+	.byte 13,10
+	.ascii "Hello from 2021211002-CXJ"
 	.byte 13,10,13,10
 
 .org 508
